@@ -52,10 +52,16 @@ class LX16A:
   # declaration of the serial port connection object
 
   def __init__(self,Port="/dev/ttyUSB0",Baudrate=115200, Timeout= 0.001):
-     self.serial = Serial(Port,baudrate=Baudrate,timeout=Timeout)
-     self.serial.setDTR(1)
-     self.TX_DELAY_TIME = 0.00002
-     self.Header = struct.pack("<BB",0x55,0x55)
+      for i in range(10):
+         try:
+            Port="/dev/ttyUSB%d"%i
+            self.serial = Serial(Port,baudrate=Baudrate,timeout=Timeout)
+            break
+         except:
+            pass
+      self.serial.setDTR(1)
+      self.TX_DELAY_TIME = 0.00002
+      self.Header = struct.pack("<BB",0x55,0x55)
 
 
   #send packet add header and checksum

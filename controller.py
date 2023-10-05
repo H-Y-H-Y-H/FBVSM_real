@@ -4,6 +4,7 @@ import time
 import cv2
 import threading
 import os
+lx16_control = LX16A()
 
 class Camera:
     def __init__(self):
@@ -33,8 +34,7 @@ class Camera:
         self.thread.join()
         self.cap.release()
 
-camera = Camera()
-lx16_control = LX16A()
+
 
 def norm2act(cmds_):
     cmds = np.asarray(cmds_)
@@ -60,7 +60,10 @@ def read_pos():
     
     return pos
 
+
 if __name__ == '__main__':
+    camera = Camera()
+
     save_path = '../data0923/'
     os.makedirs(save_path,exist_ok = True)
 
