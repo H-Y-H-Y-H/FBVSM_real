@@ -61,7 +61,7 @@ def read_pos():
     return pos
 
 if __name__ == '__main__':
-    save_path = '../data0921/'
+    save_path = '../data0923/'
     os.makedirs(save_path,exist_ok = True)
 
     #reset_pos = [-1.,-1.,0.,- 0.7]
@@ -69,10 +69,10 @@ if __name__ == '__main__':
     #time.sleep(5)
 
     print('start')
-    action_list = np.loadtxt('cleaned_con_action_robo1_dof4_size20.csv')
+    action_list = np.loadtxt('cleaned_con_action_robo0_dof4_size20.csv')
     num_data = len(action_list)
     pos_list = []
-    for a in range(num_data):
+    for a in range(50000,num_data):
         pos = [0.] * 4
         cmd = action_list[a]
         act_cmds(cmd)
@@ -101,8 +101,10 @@ if __name__ == '__main__':
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
         pos_list.append(pos)
-
-        np.savetxt('log_pos0921.csv',pos_list)
+        if a%10000 == 0:
+            np.savetxt('log_pos0923.csv',pos_list)
+            
+    np.savetxt('log_pos0923.csv',pos_list)
             
     camera.stop()
     cv2.destroyAllWindows()
